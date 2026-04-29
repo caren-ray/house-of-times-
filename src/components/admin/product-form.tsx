@@ -3,34 +3,30 @@
 import { useState, useRef } from "react";
 import { PlusCircle, Image as ImageIcon, X } from "lucide-react";
 import { addProduct } from "@/app/admin/actions";
+import { UploadButton } from "@/lib/uploadthing";
 
 export default function AddProductForm() {
-  const [preview, setPreview] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isPending, setIsPending] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setPreview(null);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsPending(true);
     
+    if (!imageUrl) {
+      alert("Please upload an image first.");
+      setIsPending(false);
+      return;
+    }
+
     const formData = new FormData(e.currentTarget);
+    formData.append("imageUrl", imageUrl);
+
     try {
       await addProduct(formData);
       formRef.current?.reset();
-      setPreview(null);
+      setImageUrl(null);
       alert("Product added successfully!");
     } catch (error) {
       alert("Failed to add product.");
@@ -52,35 +48,42 @@ export default function AddProductForm() {
           <label className="block text-sm font-semibold text-gray-700">Product Image</label>
           <div 
             className={`relative group border-2 border-dashed rounded-xl overflow-hidden transition-all duration-300 flex flex-col items-center justify-center min-h-[200px] ${
-              preview ? "border-solid border-[#D4AF37]" : "border-gray-200 hover:border-[#D4AF37]/50 bg-gray-50"
+              imageUrl ? "border-solid border-[#D4AF37]" : "border-gray-200 hover:border-[#D4AF37]/50 bg-gray-50"
             }`}
           >
-            {preview ? (
+            {imageUrl ? (
               <>
-                <img src={preview} alt="Preview" className="w-full h-full object-cover max-h-[300px]" />
+                <img src={imageUrl} alt="Preview" className="w-full h-full object-cover max-h-[300px]" />
                 <button 
                   type="button"
-                  onClick={() => setPreview(null)}
+                  onClick={() => setImageUrl(null)}
                   className="absolute top-2 right-2 bg-black/50 text-white p-1 rounded-full hover:bg-black transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </>
             ) : (
-              <div className="p-8 text-center">
+              <div className="p-8 text-center flex flex-col items-center">
                 <ImageIcon className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                <p className="text-sm text-gray-500 font-medium">Click to upload or drag and drop</p>
-                <p className="text-xs text-gray-400 mt-1">PNG, JPG or WEBP (max. 5MB)</p>
+                <UploadButton
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res) => {
+                    if (res?.[0]) {
+                      setImageUrl(res[0].url);
+                      alert("Upload Completed");
+                    }
+                  }}
+                  onUploadError={(error: Error) => {
+                    alert(`ERROR! ${error.message}`);
+                  }}
+                  appearance={{
+                    button: "bg-black hover:bg-[#D4AF37] hover:text-black transition-all text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-lg",
+                    allowedContent: "hidden"
+                  }}
+                />
+                <p className="text-xs text-gray-400 mt-4">PNG, JPG or WEBP (max. 4MB)</p>
               </div>
             )}
-            <input 
-              name="image" 
-              type="file" 
-              accept="image/*" 
-              required 
-              onChange={handleImageChange}
-              className="absolute inset-0 opacity-0 cursor-pointer" 
-            />
           </div>
         </div>
 
@@ -97,6 +100,7 @@ export default function AddProductForm() {
             </select>
           </div>
         </div>
+...
 
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">Price (KSh)</label>

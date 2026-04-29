@@ -12,32 +12,14 @@ export async function addProduct(formData: FormData) {
   const description = formData.get("description") as string;
   const price = parseFloat(formData.get("price") as string);
   const category = formData.get("category") as string;
-  const imageFile = formData.get("image") as File;
-
-  let imageUrl = "";
-
-  if (imageFile && imageFile.size > 0) {
-    const filename = `${Date.now()}-${imageFile.name.replace(/\s+/g, "-")}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    
-    // Ensure directory exists (redundant but safe)
-    await fs.mkdir(uploadDir, { recursive: true });
-    
-    const filePath = path.join(uploadDir, filename);
-    const buffer = Buffer.from(await imageFile.arrayBuffer());
-    await fs.writeFile(filePath, buffer);
-    imageUrl = `/uploads/${filename}`;
-  } else {
-    // Fallback if no image is uploaded
-    imageUrl = "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&q=80&w=800";
-  }
+  const imageUrl = formData.get("imageUrl") as string;
 
   await db.insert(products).values({
     name,
     description,
     price,
     category,
-    imageUrl,
+    imageUrl: imageUrl || "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&q=80&w=800",
   });
 
   revalidatePath("/");
