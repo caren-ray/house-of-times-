@@ -4,6 +4,13 @@ import { handleLogin } from "./actions";
 import { Lock, User, Watch } from "lucide-react";
 
 export default function LoginPage() {
+  const clientAction = async (formData: FormData) => {
+    const result = await handleLogin(formData);
+    if (result?.error) {
+      alert(result.error);
+    }
+  };
+
   return (
     <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4">
       <div className="max-w-md w-full">
@@ -16,7 +23,7 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-[#111] border border-white/5 p-8 rounded-xl shadow-2xl">
-          <form action={handleLogin} className="space-y-6">
+          <form action={clientAction} className="space-y-6">
             <div>
               <label className="block text-white/60 text-xs uppercase tracking-widest mb-2 ml-1">Username</label>
               <div className="relative">
