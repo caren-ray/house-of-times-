@@ -1,10 +1,10 @@
 import { db } from "@/lib/db";
 import { products } from "@/lib/db/schema";
-import Navbar from "@/components/navbar";
 import AddProductForm from "@/components/admin/product-form";
 import { deleteProduct } from "./actions";
 import { handleLogout } from "@/app/login/actions";
 import { Trash2, Package, Watch, Sun, Search, LayoutDashboard } from "lucide-react";
+import Link from "next/link";
 
 export const dynamic = 'force-dynamic';
 
@@ -24,9 +24,9 @@ export default async function AdminPage() {
           House Of Time <span className="text-[#D4AF37] font-light not-italic text-sm ml-2">Admin Dashboard</span>
         </div>
         <div className="flex items-center gap-6">
-          <a href="/" className="text-xs uppercase tracking-widest border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all">
+          <Link href="/" className="text-xs uppercase tracking-widest border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all">
             View Store
-          </a>
+          </Link>
           <form action={handleLogout}>
             <button className="text-xs uppercase tracking-widest bg-[#D4AF37] text-black px-4 py-2 hover:bg-white transition-all">
               Log Out

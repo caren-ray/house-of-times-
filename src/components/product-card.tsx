@@ -1,5 +1,3 @@
-import { ShoppingCart } from 'lucide-react';
-
 interface Product {
   id: number;
   name: string;

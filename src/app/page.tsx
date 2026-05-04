@@ -32,7 +32,7 @@ export default async function Home() {
             <span className="italic font-light">Timeless Elegance</span>
           </h1>
           <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light tracking-wide">
-            Curating the world's finest watches and premium eyewear for those who appreciate the art of precision.
+            Curating the world&apos;s finest watches and premium eyewear for those who appreciate the art of precision.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a href="#collection" className="bg-[#D4AF37] text-black px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-white transition-all duration-300">
@@ -82,7 +82,7 @@ export default async function Home() {
             {/* Quote */}
             <div className="flex items-center justify-center md:border-x border-white/10 px-8">
               <p className="text-xl font-serif text-white/60 italic leading-relaxed">
-                "Time is the only luxury that cannot be bought, but it can be beautifully measured."
+                &quot;Time is the only luxury that cannot be bought, but it can be beautifully measured.&quot;
               </p>
             </div>
 

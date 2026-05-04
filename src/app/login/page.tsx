@@ -3,6 +3,7 @@
 import { handleLogin } from "./actions";
 import { Lock, User, Watch, AlertCircle } from "lucide-react";
 import { useActionState } from "react";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(handleLogin, null);
@@ -70,9 +71,9 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-8 text-center">
-          <a href="/" className="text-white/20 hover:text-[#D4AF37] text-xs uppercase tracking-widest transition-colors">
+          <Link href="/" className="text-white/20 hover:text-[#D4AF37] text-xs uppercase tracking-widest transition-colors">
             Return to Store
-          </a>
+          </Link>
         </div>
       </div>
     </main>

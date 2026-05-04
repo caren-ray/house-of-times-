@@ -4,8 +4,6 @@ import { db } from "@/lib/db";
 import { products } from "@/lib/db/schema";
 import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
-import fs from "fs/promises";
-import path from "path";
 
 export async function addProduct(formData: FormData) {
   const name = formData.get("name") as string;

@@ -28,7 +28,7 @@ export default function AddProductForm() {
       formRef.current?.reset();
       setImageUrl(null);
       alert("Product added successfully!");
-    } catch (error) {
+    } catch {
       alert("Failed to add product.");
     } finally {
       setIsPending(false);
