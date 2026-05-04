@@ -3,7 +3,7 @@
 import { login as authLogin, logout as authLogout } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
-export async function handleLogin(formData: FormData) {
+export async function handleLogin(prevState: any, formData: FormData) {
   const success = await authLogin(formData);
   if (success) {
     redirect("/admin");

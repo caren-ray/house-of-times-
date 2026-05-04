@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { decrypt } from '@/lib/auth';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const session = request.cookies.get('session')?.value;
   const path = request.nextUrl.pathname;
 
-  console.log(`Middleware check: ${path} | Session present: ${!!session}`);
+  console.log(`Proxy check: ${path} | Session present: ${!!session}`);
 
   if (path.startsWith('/admin')) {
     if (!session) {
