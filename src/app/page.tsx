@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { products } from "@/lib/db/schema";
 import ProductCard from "@/components/product-card";
 import Navbar from "@/components/navbar";
+import Link from "next/link";
 import { ChevronDown, MessageCircle, Mail, Clock, Phone, Camera } from "lucide-react";
 
 export const dynamic = 'force-dynamic';
@@ -126,6 +127,7 @@ export default async function Home() {
           <div className="flex gap-8 text-white/20 text-[10px] uppercase tracking-[0.2em] mb-8 border-t border-white/5 pt-8 w-full justify-center">
             <span>Kenya</span>
             <span>Est. 2026</span>
+            <Link href="/admin" className="hover:text-[#D4AF37] transition-colors">Admin</Link>
             <span>&copy; {new Date().getFullYear()} House Of Time</span>
           </div>
         </div>

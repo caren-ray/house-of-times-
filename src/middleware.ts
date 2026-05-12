@@ -8,17 +8,22 @@ export async function middleware(request: NextRequest) {
   console.log(`Middleware check: ${path} | Session present: ${!!session}`);
 
   if (path.startsWith('/admin')) {
-    if (!session) {
-      console.log("No session found, redirecting to /login");
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
-
     try {
-      await decrypt(session);
+      if (!session) {
+        console.log("No session found, redirecting to /login");
+        return NextResponse.redirect(new URL('/login', request.url));
+      }
+
+      const decrypted = await decrypt(session);
+      if (!decrypted) {
+        console.log("Session verification failed, redirecting to /login");
+        return NextResponse.redirect(new URL('/login', request.url));
+      }
+      
       console.log("Session verified, allowing access to admin");
       return NextResponse.next();
     } catch (error) {
-      console.log("Session verification failed:", error);
+      console.log("Middleware error:", error);
       return NextResponse.redirect(new URL('/login', request.url));
     }
   }
@@ -27,5 +32,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin', '/admin/:path*'],
 };

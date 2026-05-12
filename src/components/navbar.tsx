@@ -12,6 +12,7 @@ export default function Navbar() {
         <div className="flex items-center gap-8 text-sm font-medium tracking-widest uppercase">
           <Link href="/" className="hover:text-[#D4AF37] transition-colors">Home</Link>
           <a href="#collection" className="hover:text-[#D4AF37] transition-colors tracking-widest">Collection</a>
+          <Link href="/admin" className="hover:text-[#D4AF37] transition-colors border-l border-white/20 pl-8">Admin</Link>
         </div>
       </div>
     </nav>
